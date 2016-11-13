@@ -155,62 +155,63 @@ if(isset($_SESSION['user_id'])){
         </div>
     </div>
 </div>
-    <div class="container">
-        <div class="col-lg-3 col-lg-offset-9">
-            <div class="row">
-                <h3 class="ready-to-play">Ready to play?</h3>
-            </div>
-            <div class="row">
-                <a href="#discoverModal" role="button" class="btn" data-toggle="modal">Discover</a>
-            </div>
-            <div class="row">
-                <a href="#beDiscoveredModal" role="button" class="btn" data-toggle="modal">Be Discovered</a>
-            </div>
+
+<div class="container">
+    <div class="col-lg-3 col-lg-offset-9">
+        <div class="row">
+            <h3 class="ready-to-play">Ready to play?</h3>
         </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Instrument</th>
-                    <th>Skill Level</th>
-                    <th>Date and Time</th>
-                    <th>Live Studio</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-            if(isset($forumEntries)){
-                foreach ($forumEntries as $forumEntry){
-                    echo('<tr>');
-                    echo('<td>' . $forumEntry['first_name'].'</td>');
-                    echo('<td>' . $forumEntry['inst_name'].'</td>');
-                    echo('<td>' . $forumEntry['talent'].'</td>');
-                    echo('<td>' . $forumEntry['post_date']." ".$forumEntry['post_time'].'</td>');
-                    echo('<td>' . $forumEntry['type_post'].'</td>');
-                    if(isset($_SESSION['user_id'])&& $_SESSION['user_id']==$forumEntry['user_id']){
-                        echo("<button class='btn' id=''> ")
-                    }
-                    else{
-                        echo('<td></td>');
-                    }
-
-                    echo('</tr>');
-                }
-            }
-            ?>
-            </tbody>
-        </table>
-        <h2>Todo:</h2>
-        <ul>
-            <li>Delete entry option</li>
-            <li>Make date more friendly</li>
-            <li>Filter options</li>
-            <li>Delete entries after a certain amount of time</li>
-            <li>Clicking an entry asks the poster to start a Studio session---deletes the post if yes</li>
-
-        </ul>
+        <div class="row">
+            <a href="#discoverModal" role="button" class="btn" data-toggle="modal">Discover</a>
+        </div>
+        <div class="row">
+            <a href="#beDiscoveredModal" role="button" class="btn" data-toggle="modal">Be Discovered</a>
+        </div>
     </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Instrument</th>
+                <th>Skill Level</th>
+                <th>Date and Time</th>
+                <th>Live Studio</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        if(isset($forumEntries)){
+            foreach ($forumEntries as $forumEntry){
+                echo('<tr>');
+                echo('<td>' . $forumEntry['first_name'].'</td>');
+                echo('<td>' . $forumEntry['inst_name'].'</td>');
+                echo('<td>' . $forumEntry['talent'].'</td>');
+                echo('<td>' . $forumEntry['post_date']." ".$forumEntry['post_time'].'</td>');
+                echo('<td>' . $forumEntry['type_post'].'</td>');
+                if(isset($_SESSION['user_id'])&& $_SESSION['user_id']==$forumEntry['user_id']){
+                    echo("<button class='btn' id=''> ");
+                }
+                else{
+                    echo('<td></td>');
+                }
+
+                echo('</tr>');
+            }
+        }
+        ?>
+        </tbody>
+    </table>
+    <h2>Todo:</h2>
+    <ul>
+        <li>Delete entry option</li>
+        <li>Make date more friendly</li>
+        <li>Filter options</li>
+        <li>Delete entries after a certain amount of time</li>
+        <li>Clicking an entry asks the poster to start a Studio session---deletes the post if yes</li>
+
+    </ul>
+</div>
 <script>
     $(function () {
         $('#submitDiscover').on('click', function (e) {

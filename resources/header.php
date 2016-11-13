@@ -111,6 +111,7 @@ session_start();
                     echo("<div class=\"dropdown navbar-right\">");
                     echo("<button class=\"dropbtn\">". $_SESSION['first_name']."</button>");
                     echo("<div class='dropdown-content shift-left'><a href=\"profile.php\">Profile</a>");
+                    echo("<div class='dropdown-content shift-left'><a href=\"messages.php\">Messages</a>");
                     echo("<a href=\"lib/logout.php\">Log Out</a></div></div></div>");
                 }
 

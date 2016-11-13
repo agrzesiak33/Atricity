@@ -5,10 +5,23 @@
  * Date: 01-Oct-16
  * Time: 1:42 PM
  */
-include "lib/dbconn.php";
+$host="tund.cefns.nau.edu";
+$username="ajg379";
+$password="Griz4541";
+$database="ajg379";
+$server = "localhost";
+
+
+$db = new mysqli($server,$username,$password);//local
+//$db = new mysqli($host, $username,$password);//cefns
+
+if($db -> connect_error){
+    die("Connection Failed " . $db->connect_error);
+}
 
 $db->query("USE ajg379;");
-//echo("connected Successfully");
+
+
 $table=$_GET['t'];
 if($table=="signup") {
     $sql = "SELECT * FROM user WHERE email = '" . $_POST['email'] . "';";
@@ -31,7 +44,7 @@ if($table=="signup") {
             }
 
             foreach ($_POST['instruments'] as $instrument) {
-                $sql='INSERT INTO instrument_user(user_id, inst_id, skill_level) VALUES ('.$user_id['id'].', '.$instrument.', 0);';
+                $sql='INSERT INTO instrument_user(user_id, inst_id, skill_level) VALUES (' . $user_id['id'] . ', ' . $instrument.', 0);';
                 if ($db->query($sql) === TRUE) {
                     //echo "Query Success";
                 }
@@ -83,7 +96,7 @@ elseif ($table=="discover"){
 
 }
 
-elseif ($table="BeDiscovered"){
+elseif ($table=="BeDiscovered"){
     session_start();
     $sql = "SELECT inst_id, skill_level FROM instrument_user WHERE user_id=".$_SESSION['user_id'].";";
     $result = $db->query($sql);
@@ -105,6 +118,51 @@ elseif ($table="BeDiscovered"){
     }
     else
         echo "not_signed_in";
+}
+
+elseif ($table=="email"){
+    $myemail = "ajg379@nau.edu";
+    $curDate = date("m/d/Y");
+    $curTime = date("h:s:sa");
+
+    $message="";
+    $message.="Category: ".$_POST['reason']."\r\n";
+    $message.="Message: ".$_POST['message']."\r\n";
+    $message.="Date: ".$curDate."\r\n";
+    $message.="Time: ".$curTime."\r\n";
+
+    $headers = "From: ".$_POST['fname']. " " . $_POST['lname']."<".$_POST['input_email'].">"."\r\n";
+    $headers .="Reply-To: ajg379@nau.edu\r\n";
+    $headers .="CC: ".$_POST['input_email']."\r\n";
+    //$headers .="X-Mailer: PHP/" . phpversion();
+
+    $success = mail($myemail, $_POST['subject'], $message, $headers);
+    if($success==true)
+        echo('success');
+    else
+        echo('fail');
+    echo("hello");
+}
+
+elseif ($table=="newMessage"){
+    session_start();
+    //get the user id with the email that the user wants
+    $sql = "SELECT * FROM user WHERE email = '" . $_POST['input_email']."';";
+    $result = $db->query($sql);
+    $user=$result->fetch_array(MYSQLI_ASSOC);
+
+    if(count($user)==0)
+        echo "no_user";
+    elseif(!((isset($_SESSION['first_name'])&&$_SESSION['first_name']!="")))
+        echo"not_signed_in";
+    else{
+        $sql = "INSERT INTO message(message_sender, message_recipient, message_subject, message_body) VALUES(";
+        $sql .= $_SESSION['user_id'] . ", " . $user['id'].", '".$_POST['subject']."', '".$_POST['message']."');";
+        if($db->query($sql)===TRUE)
+            echo"success";
+        else
+            echo"failed";
+    }
 }
 
 
